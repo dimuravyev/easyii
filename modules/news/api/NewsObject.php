@@ -42,7 +42,7 @@ class NewsObject extends \yii\easyii\components\ApiObject
             $this->_photos = [];
 
             foreach(Photo::find()->where(['class' => NewsModel::className(), 'item_id' => $this->id])->sort()->all() as $model){
-                $this->_photos[] = new PhotoObject($model);
+                $this->_photos[] = Yii::createObject(PhotoObject::class, [$model]);
             }
         }
         return $this->_photos;
