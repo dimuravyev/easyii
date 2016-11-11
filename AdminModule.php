@@ -5,6 +5,7 @@ use Yii;
 use yii\web\View;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\helpers\ArrayHelper;
 
 use yii\easyii\models\Module;
 use yii\easyii\models\Setting;
@@ -35,6 +36,9 @@ class AdminModule extends \yii\base\Module implements BootstrapInterface
             $modules[$name]['class'] = $module->class;
             if (is_array($module->settings)) {
                 $modules[$name]['settings'] = $module->settings;
+            }
+            if (array_key_exists($name, $this->modules)) {
+                $modules[$name] = ArrayHelper::merge($modules[$name], $this->modules[$name]);
             }
         }
         $this->setModules($modules);

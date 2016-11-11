@@ -18,7 +18,7 @@ class API extends \yii\base\Object
     {
         parent::init();
 
-        $this->module = Module::getModuleName(self::className());
+        $this->module = Module::getModuleName(static::className());
         Module::registerTranslations($this->module);
     }
 
