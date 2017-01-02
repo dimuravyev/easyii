@@ -8,6 +8,7 @@ use yii\easyii\models\Tag;
 use yii\easyii\modules\article\models\Category;
 use yii\easyii\modules\article\models\Item;
 use yii\easyii\widgets\Fancybox;
+use yii\helpers\ArrayHelper;
 use yii\widgets\LinkPager;
 
 /**
@@ -17,7 +18,9 @@ use yii\widgets\LinkPager;
  * @method static CategoryObject cat(mixed $id_slug) Get article category by id or slug
  * @method static array tree() Get article categories as tree
  * @method static array cats() Get article categories as flat array
+ * @method static array parentCats($cat_id_slug) Get article categories as flat array
  * @method static array items(array $options = []) Get list of articles as ArticleObject objects
+ * @method static array catChildrenItems($id_slug, array $options = []) Get list of articles as ArticleObject objects
  * @method static ArticleObject get(mixed $id_slug) Get article object by id or slug
  * @method static mixed last(int $limit = 1) Get last articles
  * @method static void plugin() Applies FancyBox widget on photos called by box() function
@@ -87,6 +90,16 @@ class Article extends \yii\easyii\components\API
             }
         }
         return $this->_items;
+    }
+
+    public function api_catChildrenItems($id_slug, $options = [])
+    {
+        if (!$parentCat = $this->api_cat($id_slug)) {
+            return null;
+        }
+        $categoryIdList = $parentCat->model->getChildrenCategoryQuery()->select('category_id')->column();
+
+        return $this->api_items(ArrayHelper::merge($options, ['where' => ['category_id' => $categoryIdList]]));
     }
 
     public function api_last($limit = 1, $where = null)
@@ -160,5 +173,18 @@ class Article extends \yii\easyii\components\API
         } else {
             return null;
         }
+    }
+
+    public function api_parentCats($cat_id_slug)
+    {
+        if (!$category = $this->api_cat($cat_id_slug)) {
+            return null;
+        }
+
+        $result = [];
+        foreach ($category->model->getParentCategoryQuery()->each() as $category) {
+            $result[] = $this->_cats[$category->slug] = new CategoryObject($category);
+        }
+        return $result;
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace yii\easyii\modules\article\models;
 
+use yii\helpers\ArrayHelper;
+
 class Category extends \yii\easyii\components\CategoryModel
 {
     public static function tableName()

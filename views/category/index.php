@@ -21,11 +21,7 @@ $baseUrl = '/admin/'.$this->context->moduleName;
                         <?php if(count($cat->children)) : ?>
                             <i class="caret"></i>
                         <?php endif; ?>
-                        <?php if(!count($cat->children) || !empty(Yii::$app->controller->module->settings['itemsInFolder'])) : ?>
-                            <a href="<?= Url::to([$baseUrl . $this->context->viewRoute, 'id' => $cat->category_id]) ?>" <?= ($cat->status == CategoryModel::STATUS_OFF ? 'class="smooth"' : '') ?>><?= $cat->title ?></a>
-                        <?php else : ?>
-                            <span <?= ($cat->status == CategoryModel::STATUS_OFF ? 'class="smooth"' : '') ?>><?= $cat->title ?></span>
-                        <?php endif; ?>
+                        <a href="<?= Url::to([$baseUrl . $this->context->viewRoute, 'id' => $cat->category_id]) ?>" <?= ($cat->status == CategoryModel::STATUS_OFF ? 'class="smooth"' : '') ?>><?= $cat->title ?></a>
                     </td>
                     <td width="120" class="text-right">
                         <div class="dropdown actions">

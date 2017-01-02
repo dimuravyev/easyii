@@ -223,4 +223,28 @@ class CategoryModel extends \yii\easyii\components\ActiveRecord
 
         return $flat;
     }
+
+    /**
+     * @return ActiveQueryNS
+     */
+    public function getChildrenCategoryQuery()
+    {
+        return self::find()
+            ->where(['and', ['>=', 'lft', $this->lft], ['<=', 'rgt', $this->rgt], ['tree' => $this->tree]])
+            ->with('seo')
+            ->orderBy('lft')
+        ;
+    }
+
+    /**
+     * @return ActiveQueryNS
+     */
+    public function getParentCategoryQuery()
+    {
+        return self::find()
+            ->where(['and', ['<=', 'lft', $this->lft], ['>=', 'rgt', $this->rgt], ['tree' => $this->tree]])
+            ->with('seo')
+            ->orderBy('lft')
+        ;
+    }
 }

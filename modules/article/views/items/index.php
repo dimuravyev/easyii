@@ -17,6 +17,7 @@ $module = $this->context->module->id;
                 <th width="50">#</th>
             <?php endif; ?>
             <th><?= Yii::t('easyii', 'Title') ?></th>
+            <th width="120"><?= Yii::t('easyii', 'Date') ?></th>
             <th width="120"><?= Yii::t('easyii', 'Views') ?></th>
             <th width="100"><?= Yii::t('easyii', 'Status') ?></th>
             <th width="120"></th>
@@ -29,6 +30,11 @@ $module = $this->context->module->id;
                     <td><?= $item->primaryKey ?></td>
                 <?php endif; ?>
                 <td><a href="<?= Url::to(['/admin/'.$module.'/items/edit', 'id' => $item->primaryKey]) ?>"><?= $item->title ?></a></td>
+                <td style="vertical-align: middle">
+                    <?= Html::tag('span', Yii::$app->formatter->asDatetime($item->time), [
+                      'class' => ['label', 'label-default']
+                    ]) ?>
+                </td>
                 <td><?= $item->views ?></td>
                 <td class="status">
                     <?= Html::checkbox('', $item->status == Item::STATUS_ON, [
