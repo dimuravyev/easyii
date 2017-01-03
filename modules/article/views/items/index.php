@@ -35,7 +35,9 @@ $module = $this->context->module->id;
                       'class' => ['label', 'label-default']
                     ]) ?>
                 </td>
-                <td><?= $item->views ?></td>
+                <td style="vertical-align: middle; text-align: center">
+                    <?= Html::tag('span', $item->views, ['class' => ['badge', 'badge-default']]) ?>
+                </td>
                 <td class="status">
                     <?= Html::checkbox('', $item->status == Item::STATUS_ON, [
                         'class' => 'switch',
