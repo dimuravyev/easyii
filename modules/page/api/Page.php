@@ -26,7 +26,11 @@ class Page extends \yii\easyii\components\API
 
     private function findPage($id_slug)
     {
-        $page = PageModel::find()->where(['or', 'page_id=:id_slug', 'slug=:id_slug'], [':id_slug' => $id_slug])->one();
+        $page = PageModel::find()->where([
+          'or',
+          ['page_id' => (integer)$id_slug],
+          ['slug' => (string)$id_slug]
+        ])->one();
 
         return $page ? new PageObject($page) : $this->notFound($id_slug);
     }
